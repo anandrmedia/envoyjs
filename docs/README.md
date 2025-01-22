@@ -60,6 +60,13 @@ Currently, `OPEN_AI` and `DEEP_SEEK` are supported.
 ## Tools
 Tools extend the functionality of agents by providing specific capabilities. A tool can have multiple functions. The agent will decide which functions to use from the tool.
 
+### Available Tools
+
+|     Tool       |     Purpose        |
+|----------------|---------------------|
+| `ytyoutubeTranscriptTool` | Transcribes a youtube video |
+| `googleSearchTool` | Performs Google Search
+
 ### Creating a Custom Tool
 You can create custom tools by extending the Tool class. You should create an instance of your custom Tool class and export it. This exported instance can be provided to the Agent via the `tools` property.
 

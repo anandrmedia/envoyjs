@@ -26,7 +26,7 @@ class GoogleSearchTool extends Tool{
     async search(query: string){
         const response = await axios.get("https://google.serper.dev/search?q="+query, {
             headers:{
-                'X-API-KEY': 'b1046ba373aa6cbdb7ed05756341f13281a6113b', 
+                'X-API-KEY': '', 
                 'Content-Type': 'application/json'
             }
         });
