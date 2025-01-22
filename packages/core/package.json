@@ -11,8 +11,8 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "description": "",
+  "license": "MIT",
+  "description": "EnvoyJS is a simple JavaScript framework for building AI Agents.",
   "devDependencies": {
     "concurrently": "^8.0.0",
     "nodemon": "^3.0.0",
