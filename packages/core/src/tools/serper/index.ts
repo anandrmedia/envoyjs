@@ -3,6 +3,8 @@ import { Tool } from "../base/base-tool";
 
 class GoogleSearchTool extends Tool{
 
+    private serperApiKey!:string;
+
     public name = "Google Search Tool"
     public identifier: string = "google-search-tool"
     public abilities: string[] = ["You can perform google search and get results"]
@@ -23,10 +25,21 @@ class GoogleSearchTool extends Tool{
         'search': this.search
     }
 
+    public init(config:{
+        serperApiKey: string
+    }){
+        this.serperApiKey = config.serperApiKey
+    }
+
     async search(query: string){
+
+        if(!this.serperApiKey){
+            return 'Cannot do search, because search tool was not initialised with a serper api key!'
+        }
+
         const response = await axios.get("https://google.serper.dev/search?q="+query, {
             headers:{
-                'X-API-KEY': '', 
+                'X-API-KEY': this.serperApiKey, 
                 'Content-Type': 'application/json'
             }
         });
