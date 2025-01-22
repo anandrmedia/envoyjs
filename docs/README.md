@@ -74,8 +74,8 @@ You can create custom tools by extending the Tool class. You should create an in
 The tool class must have a `functionMap` object that acts as a dictionary of available functions.
 ```javascript
 public functionMap = {
-        writeFile: this.writeFile,
-        createDirectory: this.createDirectory
+        writeFile: this.writeFile.bind(this),
+        createDirectory: this.createDirectory.bind(this)
     };
 ```
 
@@ -112,8 +112,8 @@ class FileWriterTool extends Tool {
     ];
 
     public functionMap = {
-        writeFile: this.writeFile,
-        createDirectory: this.createDirectory
+        writeFile: this.writeFile.bind(this),
+        createDirectory: this.createDirectory.bind(this)
     };
 
     public async writeFile(fileName: string, content: string) {
