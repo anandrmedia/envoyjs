@@ -19,6 +19,10 @@ export class Model{
 
         switch(this.modelConfig.provider){
             case 'OPEN_AI':{
+
+                if(!this.modelConfig.apiKey){
+                    throw new Error('OpenAI API Key is missing!');
+                }
                 this.openAiProvider = new OpenAIProvider(this.modelConfig)
             }
         }
