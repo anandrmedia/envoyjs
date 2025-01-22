@@ -23,18 +23,25 @@ export class Model{
 
         switch(this.modelConfig.provider){
             case 'OPEN_AI':{
+                //console.log("initialising openai")
 
                 if(!this.modelConfig.apiKey){
                     throw new Error('OpenAI API Key is missing!');
                 }
                 this.openAiProvider = new OpenAIProvider(this.modelConfig)
+
+                break;
             }
 
             case 'DEEP_SEEK':{
+
+                //console.log("initialising deepseek")
                 if(!this.modelConfig.apiKey){
                     throw new Error('DEEP SEEK API Key is missing!');
                 }
-                this.deepSeekProvider = new DeepSeekProvider(this.modelConfig as DeepSeekModelConfig)  
+                this.deepSeekProvider = new DeepSeekProvider(this.modelConfig as DeepSeekModelConfig) 
+                
+                break;
             }
         }
     }
@@ -45,10 +52,12 @@ export class Model{
         switch(this.modelConfig.provider){
             case 'OPEN_AI':{
                 response = await this.openAiProvider.sendAndReceiveResponse(messages)
+                break;
             }
 
             case 'DEEP_SEEK':{
                 response = await this.deepSeekProvider.sendAndReceiveResponse(messages)
+                break;
             }
         }
         

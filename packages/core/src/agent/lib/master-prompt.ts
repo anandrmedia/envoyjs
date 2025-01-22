@@ -6,16 +6,15 @@ function serializeTools(tools: Tool[]) {
   let serializedToolList = ``;
 
   for (const tool of tools) {
-    serializedToolList += `START_TOOL:\n`;
-    serializedToolList += `name: ` + tool.name;
-    serializedToolList += `identifier: ` + tool.identifier;
-    serializedToolList += `\nabilities: ` + tool.abilities.join(",");
+    serializedToolList += `\n### `+tool.name+`\n`;
+    serializedToolList += `- name: ` + tool.name;
+    serializedToolList += `\n- identifier: ` + tool.identifier;
+    serializedToolList += `\n- abilities: ` + tool.abilities.join(",");
     serializedToolList += "\n";
-
-    serializedToolList += "Available functions: \n";
+    serializedToolList += "\n#### Tool instructions \n"+tool.instructions.join(",")
+    serializedToolList += "\n#### Available functions: \n";
     serializedToolList += serializeFunctions(tool.functions);
-
-    serializedToolList += `\nEND_TOOL:\n`;
+    serializedToolList += `\n`;
   }
 
   return serializedToolList;
@@ -44,7 +43,7 @@ The list of tools is given. You can decide on which tool to use based on it's ab
    }
 }
 
-Explanation of the fields:
+## Explanation of the fields:
 
 message - Some message you have to convey
 use_tool - If you want to instruct the system program to use a tool. Include this field only if you want to use a tool.
@@ -52,12 +51,15 @@ use_tool.identifier - Identifier of the tool
 use_tool.function_name - Which function in the tool to be used
 use_tool.args - Arguments to the function call
 
-General Instructions:
+## General Instructions:
+Read all the instructions carefully, plan the steps, and then execute.
 Stick to the tools available. Don't try to use that are not mentioned here. If you can't find the tool, just say that.
 If tools return error or unusual response, you must inform that in the "message" field
 When you are using a tool, explain how you are going to use it.
+Use as many tool usage as required. You don't have any limits on the number of times you can use the tool.
+Be smart enough to identify the right tools. For example if you see a link, you may use a crawler to inspect that link.
 
-Available Tools:
+## Available Tools:
 ${serializeTools(config.tools)}
 
 You should follow these steps:
@@ -67,14 +69,17 @@ ${config.steps.join(",")}
 
 
 function serializeFunctions(functions: ToolFunctionSpec[]) {
+
+  return JSON.stringify(functions);
+  
     let serializedFunctionList = ``;
   
     for (const funct of functions) {
-        serializedFunctionList += `name: ` + funct.name;
-        serializedFunctionList += `\npurpose: ` + funct.purpose;
-        serializedFunctionList += `\narguments: `+funct.arguments;
-        serializedFunctionList += `\nresponse: `+funct.response;
-        serializedFunctionList += "\n";
+        serializedFunctionList += `\n##### `+funct.name+`\n`;
+        serializedFunctionList += `- name: ` + funct.name;
+        serializedFunctionList += `\n- purpose: ` + funct.purpose;
+        serializedFunctionList += `\n- arguments: `+JSON.stringify(funct.arguments);
+        serializedFunctionList += `\n- response: `+funct.response;
     }
   
     return serializedFunctionList;
