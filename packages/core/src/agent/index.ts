@@ -3,6 +3,7 @@ import { Model } from "../model";
 import { AnyModelConfig, ModelConfig, ModelMessage } from "../model/types";
 import { getMasterPrompt } from "./lib/master-prompt";
 import { AgentResponse } from "./types";
+import ora from "ora";
 
 export class Agent {
   public name: string = "default_agent";
@@ -10,6 +11,7 @@ export class Agent {
   public steps!: string[];
   public modelConfig!: AnyModelConfig
   public tools!: Tool[];
+  public _debugMode?: boolean = false;
 
   private model!: Model;
   private messages: ModelMessage[] = [];
@@ -20,11 +22,13 @@ export class Agent {
     steps: string[];
     modelConfig: AnyModelConfig;
     tools?: Tool[];
+    _debugMode?: boolean
   }) {
     this.name = config.name;
     this.bio = config.bio;
     this.steps = config.steps;
     this.modelConfig = config.modelConfig;
+    this._debugMode = config._debugMode;
 
     if (config.tools) {
       this.tools = config.tools;
@@ -83,11 +87,11 @@ export class Agent {
   private async process(response: AgentResponse) {
 
     if(response.message){
-        console.log(response.message)
+        console.log(" 🤖 ",response.message)
     }
 
     if (response.use_tool) {
-        console.log("\n 🤖 I'll use the "+response.use_tool.identifier+" tool for this\n");
+        console.log("\n 🛠️ Using tool "+response.use_tool.identifier+"\n");
       
      const tool = this.getTool(response.use_tool.identifier);
 
@@ -110,6 +114,14 @@ export class Agent {
   }
 
   public async printResponse(prompt: string, config?: {}) {
+    const spinner = ora().start()
     await this.process(await this.prompt(prompt)); 
+    spinner.stop();
+
+
+    if(this._debugMode){
+        console.log("--MESSAGE STACK--")
+        console.log(this.messages);
+    }
   }
 }

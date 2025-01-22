@@ -14,4 +14,4 @@ const agent = new Agent({
     tools: [youtubeTranscriptTool, fileWriterTool]
 });
 
-agent.printResponse("Summarise this youtube video - https://youtu.be/QtYEPYntfL4 and save it in transcripts folder");
+agent.printResponse("Summarise this youtube video - https://youtu.be/QtYEPYntfL4 and save it in transcripts folder.");

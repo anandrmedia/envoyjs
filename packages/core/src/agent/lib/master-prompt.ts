@@ -54,6 +54,8 @@ use_tool.args - Arguments to the function call
 
 General Instructions:
 Stick to the tools available. Don't try to use that are not mentioned here. If you can't find the tool, just say that.
+If tools return error or unusual response, you must inform that in the "message" field
+When you are using a tool, explain how you are going to use it.
 
 Available Tools:
 ${serializeTools(config.tools)}

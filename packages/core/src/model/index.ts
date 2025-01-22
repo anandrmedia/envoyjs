@@ -1,6 +1,7 @@
 import { DeepSeekProvider } from "./providers/deepseek";
 import { OpenAIProvider } from "./providers/open_ai";
 import { AnyModelConfig, DeepSeekModelConfig, ModelConfig, ModelMessage } from "./types";
+import ora from 'ora';
 
 export * from './types';
 
@@ -41,7 +42,6 @@ export class Model{
     async sendAndReceiveResponse(messages: ModelMessage[]){
 
         let response;
-
         switch(this.modelConfig.provider){
             case 'OPEN_AI':{
                 response = await this.openAiProvider.sendAndReceiveResponse(messages)

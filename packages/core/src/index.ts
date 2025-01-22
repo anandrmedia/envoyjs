@@ -7,3 +7,6 @@ export {Tool} from './tools';
 export {ToolFunctionSpec} from './tools'
 
 export {youtubeTranscriptTool} from "./tools"
+export {googleSearchTool} from "./tools/serper"
+export {fileWriterTool} from "./tools/file-writer"
+export {crawlerTool} from "./tools/crawler"
