@@ -30,4 +30,4 @@ class YoutubeTranscriptTool extends Tool{
     }
 }
 
-export const youtubeTranscriptTool = new YoutubeTranscript();
+export const youtubeTranscriptTool = new YoutubeTranscriptTool();

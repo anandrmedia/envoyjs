@@ -62,10 +62,10 @@ Tools extend the functionality of agents by providing specific capabilities. A t
 
 ### Available Tools
 
-|     Tool       |     Purpose        |
-|----------------|---------------------|
-| `ytyoutubeTranscriptTool` | Transcribes a youtube video |
-| `googleSearchTool` | Performs Google Search |
+|     Tool       |     Purpose         | Additional Config |
+|----------------|---------------------|-------------------|
+| `youtubeTranscriptTool` | Transcribes a youtube video |
+| `googleSearchTool` | Performs Google Search using Serper API | Add your Server API key via `googleSearchTool.config({serperApiKey:""})` |
 | `crawlerTool` | Crawls web pages |
 
 ### Creating a Custom Tool

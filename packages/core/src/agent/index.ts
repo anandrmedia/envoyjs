@@ -104,7 +104,11 @@ export class Agent {
       const args = response.use_tool.args;
 
       const functionResponse = await tool.functionMap[fn](...args);
-      await this.process(await this.prompt("Function response is "+functionResponse))
+      try{
+        await this.process(await this.prompt("Function response is "+functionResponse))
+      }catch(error){
+        console.error("Fatal error ", error)
+      }
     }
 
   }
