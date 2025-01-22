@@ -60,14 +60,22 @@ Currently, `OPEN_AI` and `DEEP_SEEK` are supported.
 ## Tools
 Tools extend the functionality of agents by providing specific capabilities. A tool can have multiple functions. The agent will decide which functions to use from the tool.
 
+### Available Tools
+
+|     Tool       |     Purpose         | Additional Config |
+|----------------|---------------------|-------------------|
+| `youtubeTranscriptTool` | Transcribes a youtube video |
+| `googleSearchTool` | Performs Google Search using Serper API | Add your Server API key via `googleSearchTool.config({serperApiKey:""})` |
+| `crawlerTool` | Crawls web pages |
+
 ### Creating a Custom Tool
 You can create custom tools by extending the Tool class. You should create an instance of your custom Tool class and export it. This exported instance can be provided to the Agent via the `tools` property.
 
 The tool class must have a `functionMap` object that acts as a dictionary of available functions.
 ```javascript
 public functionMap = {
-        writeFile: this.writeFile,
-        createDirectory: this.createDirectory
+        writeFile: this.writeFile.bind(this),
+        createDirectory: this.createDirectory.bind(this)
     };
 ```
 
@@ -104,8 +112,8 @@ class FileWriterTool extends Tool {
     ];
 
     public functionMap = {
-        writeFile: this.writeFile,
-        createDirectory: this.createDirectory
+        writeFile: this.writeFile.bind(this),
+        createDirectory: this.createDirectory.bind(this)
     };
 
     public async writeFile(fileName: string, content: string) {
