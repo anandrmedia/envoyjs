@@ -46,6 +46,7 @@ const agent = new Agent({
     tools: [youtubeTranscriptTool, fileWriterTool] // Add tools here
 });
 ```
+
 ### Parameters for Agent
 - name: The name of the agent.
 - bio: A short description of the agent's purpose.
@@ -56,6 +57,15 @@ const agent = new Agent({
 ### Supported Models
 
 Currently, `OPEN_AI` and `DEEP_SEEK` are supported.
+
+### Running the Agent
+
+Start the agent using `printResponse(prompt:string)` function. 
+For example
+
+```javascript
+agent.printResponse("Summarise this youtube video - ");
+```
 
 ## Tools
 Tools extend the functionality of agents by providing specific capabilities. A tool can have multiple functions. The agent will decide which functions to use from the tool.
