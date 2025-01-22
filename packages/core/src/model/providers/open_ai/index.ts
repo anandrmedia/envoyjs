@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { ModelConfig, ModelMessage, OpenAIModel } from "@/model/types";
+import { ModelConfig, ModelMessage, ModelType, OpenAIModel } from "@/model/types";
 import { AgentResponse } from "@/agent/types";
 
 
@@ -8,7 +8,7 @@ export class OpenAIProvider{
     private client!: OpenAI;
     private model!: OpenAIModel
 
-    constructor(config: ModelConfig){
+    constructor(config: ModelConfig<typeof ModelType.OpenAI>){
         this.client = new OpenAI({
             apiKey: config.apiKey,
         })

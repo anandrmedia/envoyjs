@@ -14,10 +14,10 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "ts-node": "^10.9.2",
-    "typescript": "^5.7.3",
+    "concurrently": "^8.0.0",
     "nodemon": "^3.0.0",
-    "concurrently": "^8.0.0"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
   },
   "exports": {
     ".": {

@@ -1,19 +1,14 @@
 import { Tool } from "../tools";
 import { Model } from "../model";
-import { ModelConfig, ModelMessage } from "../model/types";
+import { AnyModelConfig, ModelConfig, ModelMessage } from "../model/types";
 import { getMasterPrompt } from "./lib/master-prompt";
 import { AgentResponse } from "./types";
 
 export class Agent {
   public name: string = "default_agent";
-  public bio: string =
-    "You are EnvoyAgent, an agent that talks about the EnvoyJS Agentic framework!";
+  public bio: string;
   public steps!: string[];
-  public modelConfig: ModelConfig = {
-    provider: "OPEN_AI",
-    model: "gpt-4o",
-    apiKey: "",
-  };
+  public modelConfig!: AnyModelConfig
   public tools!: Tool[];
 
   private model!: Model;
@@ -23,7 +18,7 @@ export class Agent {
     name: string;
     bio: string;
     steps: string[];
-    modelConfig: ModelConfig;
+    modelConfig: AnyModelConfig;
     tools?: Tool[];
   }) {
     this.name = config.name;

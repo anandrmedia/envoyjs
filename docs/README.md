@@ -1,5 +1,11 @@
 # EnvoyJS: Minimal Agentic Framework in Javascript
 
+```
+⚠️ Warning
+EnvoyJS is in its early stages and is primarily developed for personal use.
+While it provides basic functionality for creating agents and tools, it may contain unknown bugs or unexpected behavior. Please use it cautiously, as it can potentially exhaust your valuable tokens or incur unexpected costs.
+```
+
 ## Introduction
 
 EnvoyJS is a simple JavaScript framework for building agentic applications. With EnvoyJS, you can create agents with customizable behavior and functionality. The framework supports OpenAI models and allows the creation of custom tools that can be used by agents to perform various tasks.
@@ -47,14 +53,26 @@ const agent = new Agent({
 - modelConfig: Configuration for the AI model, including provider, API key, and model type.
 - tools: List of tools the agent can use (e.g., custom tools like FileWriterTool).
 
+### Supported Models
+
+Currently, `OPEN_AI` and `DEEP_SEEK` are supported.
+
 ## Tools
 Tools extend the functionality of agents by providing specific capabilities. A tool can have multiple functions. The agent will decide which functions to use from the tool.
 
 ### Creating a Custom Tool
-You can create custom tools by extending the Tool class.
+You can create custom tools by extending the Tool class. You should create an instance of your custom Tool class and export it. This exported instance can be provided to the Agent via the `tools` property.
+
+The tool class must have a `functionMap` object that acts as a dictionary of available functions.
+```javascript
+public functionMap = {
+        writeFile: this.writeFile,
+        createDirectory: this.createDirectory
+    };
+```
 
 #### Example: FileWriterTool
-The following is a custom tool for writing files and creating directories:
+The following is a custom tool for writing files and creating directories. Notice that the tool has two functions `writeFile` and `createDirectory`.
 
 ```javascript
 import { Tool, ToolFunctionSpec } from "@envoyjs/core";
