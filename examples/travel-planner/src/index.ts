@@ -1,5 +1,7 @@
 import { Agent, crawlerTool, fileWriterTool, googleSearchTool } from "@envoyjs/core";
 
+googleSearchTool.init({serperApiKey: ""})
+
 const agent = new Agent({
   name: "Travel planner agent",
   bio: "You are an expert in making travel itineraries by researching about a place and the attractions in Google",

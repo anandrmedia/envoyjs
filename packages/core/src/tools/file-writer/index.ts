@@ -33,8 +33,8 @@ class FileWriterTool extends Tool{
     }]
 
     public functionMap = {
-        'writeFile': this.writeFile,
-        'createDirectory': this.createDirectory
+        'writeFile': this.writeFile.bind(this),
+        'createDirectory': this.createDirectory.bind(this)
     }
 
     public async writeFile(fileName: string, content: string){
@@ -61,4 +61,4 @@ class FileWriterTool extends Tool{
 }
 
 
-export const fileWriterTool = new FileWriterTool()
+export const fileWriterTool =  new FileWriterTool();

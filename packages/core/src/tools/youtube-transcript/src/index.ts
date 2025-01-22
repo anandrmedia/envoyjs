@@ -20,7 +20,7 @@ class YoutubeTranscriptTool extends Tool{
     }]
 
     public functionMap = {
-        'fetchTranscript': this.fetchTranscript
+        'fetchTranscript': this.fetchTranscript.bind(this)
     }
 
     public async fetchTranscript(videoId: string){
@@ -30,4 +30,4 @@ class YoutubeTranscriptTool extends Tool{
     }
 }
 
-export const youtubeTranscriptTool = new YoutubeTranscriptTool()
+export const youtubeTranscriptTool = new YoutubeTranscript();

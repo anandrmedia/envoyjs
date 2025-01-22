@@ -24,7 +24,7 @@ class CrawlerTool extends Tool{
     ]
 
     public functionMap = {
-        'crawl': this.crawl
+        'crawl': this.crawl.bind(this)
     }
 
     async crawl(url: string, maxChars: number = 10000){
@@ -38,4 +38,4 @@ class CrawlerTool extends Tool{
     }
 }
 
-export const crawlerTool = new CrawlerTool()
+export const crawlerTool =  new CrawlerTool();

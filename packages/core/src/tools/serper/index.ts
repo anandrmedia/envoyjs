@@ -3,7 +3,7 @@ import { Tool } from "../base/base-tool";
 
 class GoogleSearchTool extends Tool{
 
-    private serperApiKey!:string;
+    public serperApiKey!:string;
 
     public name = "Google Search Tool"
     public identifier: string = "google-search-tool"
@@ -22,7 +22,7 @@ class GoogleSearchTool extends Tool{
     public instructions: string[] = ["Use the search function to perform google search"]
 
     public functionMap = {
-        'search': this.search
+        'search': this.search.bind(this)
     }
 
     public init(config:{
@@ -32,7 +32,6 @@ class GoogleSearchTool extends Tool{
     }
 
     async search(query: string){
-
         if(!this.serperApiKey){
             return 'Cannot do search, because search tool was not initialised with a serper api key!'
         }
