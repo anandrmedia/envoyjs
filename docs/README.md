@@ -65,7 +65,8 @@ Tools extend the functionality of agents by providing specific capabilities. A t
 |     Tool       |     Purpose        |
 |----------------|---------------------|
 | `ytyoutubeTranscriptTool` | Transcribes a youtube video |
-| `googleSearchTool` | Performs Google Search
+| `googleSearchTool` | Performs Google Search |
+| `crawlerTool` | Crawls web pages |
 
 ### Creating a Custom Tool
 You can create custom tools by extending the Tool class. You should create an instance of your custom Tool class and export it. This exported instance can be provided to the Agent via the `tools` property.
