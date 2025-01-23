@@ -1,5 +1,7 @@
 # EnvoyJS: Minimal Agentic Framework in Javascript
 
+![](./resources/images/ss.png)
+
 ```
 ⚠️ Warning
 EnvoyJS is in its early stages and is primarily developed for personal use.

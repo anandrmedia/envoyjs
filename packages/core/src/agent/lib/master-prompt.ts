@@ -62,8 +62,8 @@ Be smart enough to identify the right tools. For example if you see a link, you 
 ## Available Tools:
 ${serializeTools(config.tools)}
 
-You should follow these steps:
-${config.steps.join(",")}
+## You should follow these steps:
+${config.steps.join(", ")}
 `;
 };
 
