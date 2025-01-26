@@ -1,6 +1,21 @@
 import { Tool, ToolFunctionSpec } from "@/tools";
+import { StructuredResponse } from "../structured-response";
 
-function serializeTools(tools: Tool[]) {
+
+function getCurrentTimeInTimeZone(timeZone: string = Intl.DateTimeFormat().resolvedOptions().timeZone) {
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone,
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: true, // For AM/PM format
+  }).format(new Date());
+}
+
+function serializeTools(tools: Tool[] = []) {
 
     
   let serializedToolList = ``;
@@ -25,6 +40,7 @@ export const getMasterPrompt = (config: {
   bio: string;
   tools: Tool[];
   steps: string[];
+  responseStructure?: StructuredResponse
 }) => {
   return `
 You are an AI Agent and your name is ${
@@ -35,7 +51,11 @@ You are an AI Agent and your name is ${
 The list of tools is given. You can decide on which tool to use based on it's abilities mentioned.
 
 {
-   "message": "",
+  "task_completed": "",
+   "response": {
+      "type": "",
+      "message: "",
+   },
    "use_tool": {
       "identifier": ""
       "function_name": "",
@@ -45,22 +65,24 @@ The list of tools is given. You can decide on which tool to use based on it's ab
 
 ## Explanation of the fields:
 
-message - Some message you have to convey
+task_completed - This is a boolean field. Set this to true only if your work has been completed and the prompting can stop.
+response - The response object. 
+response.type - For the final task output use ${config.responseStructure ? 'JSON' : 'string'} format. For intermediate messages, use string format.
+response.message - For the final task output use ${(config.responseStructure ? config.responseStructure.toJson(): 'plain text')} ' here. For intermediate messages, use string format
 use_tool - If you want to instruct the system program to use a tool. Include this field only if you want to use a tool.
 use_tool.identifier - Identifier of the tool
 use_tool.function_name - Which function in the tool to be used
 use_tool.args - Arguments to the function call
 
 ## General Instructions:
-Read all the instructions carefully, plan the steps, and then execute.
-Stick to the tools available. Don't try to use that are not mentioned here. If you can't find the tool, just say that.
-If tools return error or unusual response, you must inform that in the "message" field
-When you are using a tool, explain how you are going to use it.
-Use as many tool usage as required. You don't have any limits on the number of times you can use the tool.
-Be smart enough to identify the right tools. For example if you see a link, you may use a crawler to inspect that link.
+* Current date and time is ${getCurrentTimeInTimeZone()}
+* While dealing with real world events, Always check the current date and confirm whether the event in the query is in the past, present, or future relative to today’s date before writing about it. Adapt the tone and details accordingly.
+* Read all the steps carefully, plan them, and then execute.
+* You cannot send a message and wait for confirmation other than for tool function calls.
+* You cannot use any other tools other than the ones mentioned below
 
 ## Available Tools:
-${serializeTools(config.tools)}
+${config.tools.length>0 ? serializeTools(config.tools) : 'No tools available!'}
 
 ## You should follow these steps:
 ${config.steps.join(", ")}
@@ -68,7 +90,7 @@ ${config.steps.join(", ")}
 };
 
 
-function serializeFunctions(functions: ToolFunctionSpec[]) {
+function serializeFunctions(functions: ToolFunctionSpec[] = []) {
 
   return JSON.stringify(functions);
   

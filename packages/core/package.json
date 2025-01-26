@@ -26,6 +26,7 @@
     }
   },
   "dependencies": {
+    "@types/node": "^22.10.10",
     "axios": "^1.7.9",
     "openai": "^4.79.3",
     "ora": "^5.4.0",
