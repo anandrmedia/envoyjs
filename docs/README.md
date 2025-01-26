@@ -20,8 +20,20 @@ Install the EnvoyJS framework using npm or yarn:
 npm install @envoyjs/core
 ```
 
-## Creating an Agent
+## Agents
 Agents are the core component of EnvoyJS. They define the behavior, purpose, and tools required to execute tasks.
+
+### Parameters for Agent
+- `name`: The name of the agent.
+- `bio`: A short description of the agent's purpose.
+- `steps`: Step-by-step instructions for the agent to follow as array of strings.
+- `modelConfig`: Configuration for the AI model, including provider, API key, and model type.
+- `tools`: List of tools the agent can use (e.g., custom tools like FileWriterTool).
+- `responseStructure`: The structure for the model to respond (Should be an object of `StructuredResponse` class) 
+
+### Supported Models
+
+Currently, `OPEN_AI` and `DEEP_SEEK` are supported.
 
 ### Example: Creating an Agent
 Here is an example of creating a Content Summariser Agent:
@@ -49,24 +61,19 @@ const agent = new Agent({
 });
 ```
 
-### Parameters for Agent
-- name: The name of the agent.
-- bio: A short description of the agent's purpose.
-- steps: Step-by-step instructions for the agent to follow.
-- modelConfig: Configuration for the AI model, including provider, API key, and model type.
-- tools: List of tools the agent can use (e.g., custom tools like FileWriterTool).
-
-### Supported Models
-
-Currently, `OPEN_AI` and `DEEP_SEEK` are supported.
-
 ### Running the Agent
 
-Start the agent using `printResponse(prompt:string)` function. 
+Start the agent using `printResponse(prompt:string)` function to see the output in your console. 
 For example
 
 ```javascript
 agent.printResponse("Summarise this youtube video - ");
+```
+
+To get the response as function return instead of printing to console, use the `run` function instead
+
+```javascript
+const response = agent.run("Can you make a travel plan a 3 day Munnar trip?");
 ```
 
 ## Tools
@@ -79,6 +86,7 @@ Tools extend the functionality of agents by providing specific capabilities. A t
 | `youtubeTranscriptTool` | Transcribes a youtube video |
 | `googleSearchTool` | Performs Google Search using Serper API | Add your Server API key via `googleSearchTool.config({serperApiKey:""})` |
 | `crawlerTool` | Crawls web pages |
+| `webPageToMarkdownTool` | Crawls the given URL and convert it into Markdown with relevant pieces of content |
 
 ### Creating a Custom Tool
 You can create custom tools by extending the Tool class. You should create an instance of your custom Tool class and export it. This exported instance can be provided to the Agent via the `tools` property.
@@ -151,6 +159,38 @@ class FileWriterTool extends Tool {
 }
 
 export const fileWriterTool = new FileWriterTool();
+```
+
+## Structured Responses
+You can define a structured response and pass it to the `Agent` via `responseStructure` property. Structured reponse can be created by extending the `StructuredResponse` class.
+
+### Creating a structured response and passing it to Agent
+
+```javascript
+const newsArticle: StructuredResponse = new StructuredResponse({
+    title: "Title of the article",
+    url: "Link to the article.",
+    summary: "Summary of the article if available"
+});
+
+const searchResult: StructuredResponse = new StructuredResponse({
+    articles: [newsArticle]
+})
+
+//Pass it to the agent
+
+const searcher = new Agent({
+    name: "Searcher agent",
+    bio: "You are an expert in performing web search to find relevant results",
+    steps: ["Given a topic, search for 20 articles and return the top 5 relevant article."],
+    modelConfig:{
+        model: "deepseek-chat",
+        apiKey: process.env.DEEP_SEEK_API_KEY as string,
+        provider: "DEEP_SEEK"
+    },
+    tools: [googleSearchTool],
+    responseStructure:searchResult, //We're instructing the agent to respond in the structure we defined
+});
 ```
 
 ## Summary

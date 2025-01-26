@@ -1,4 +1,5 @@
 import "reflect-metadata";
+
 export { Agent } from './agent';
 export { Model } from './model';
 export type { ModelConfig, ModelMessage } from './model/types';
@@ -10,5 +11,6 @@ export {youtubeTranscriptTool} from "./tools/youtube-transcript/src"
 export {googleSearchTool} from "./tools/serper"
 export {fileWriterTool} from "./tools/file-writer"
 export {crawlerTool} from "./tools/crawler"
+export { webPageToMarkdownTool } from "./tools/webpage-to-markdown";
 
 export { StructuredResponse } from "./agent/structured-response";

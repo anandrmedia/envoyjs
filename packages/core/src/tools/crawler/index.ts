@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Tool } from "../base/base-tool";
+import puppeteer from "puppeteer"
 
 class CrawlerTool extends Tool{
     public name = "Crawler Tool"
@@ -28,13 +29,19 @@ class CrawlerTool extends Tool{
     }
 
     async crawl(url: string, maxChars: number = 10000){
-        const response = await axios.get(url);
 
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+        await page.goto(url);
+        await page.waitForSelector('body');
+        const response = await page.evaluate(() => {
+            return document.querySelector('body')?.innerHTML;
+        });
         if(maxChars){
-            return response.data.substring(0, maxChars)
+            return response?.substring(0, maxChars)
         }
         
-        return response.data;
+        return response;
     }
 }
 

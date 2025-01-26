@@ -175,7 +175,7 @@ export class Agent {
 
   public async printResponse(prompt: string, config?: {}) {
     const spinner = ora().start();
-    console.log(await this.run(prompt));
+    console.log((await this.run(prompt))?.message);
     spinner.stop();
 
     if (this._debugMode) {

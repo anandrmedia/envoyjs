@@ -80,6 +80,7 @@ use_tool.args - Arguments to the function call
 * Read all the steps carefully, plan them, and then execute.
 * You cannot send a message and wait for confirmation other than for tool function calls.
 * You cannot use any other tools other than the ones mentioned below
+* Read the abilities of available tools carefully and choose the most efficient ones.
 
 ## Available Tools:
 ${config.tools.length>0 ? serializeTools(config.tools) : 'No tools available!'}
