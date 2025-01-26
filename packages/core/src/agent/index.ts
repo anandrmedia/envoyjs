@@ -128,7 +128,11 @@ export class Agent {
           nextPrompt: "Function response is " + functionResponse,
         };
       } catch (error) {
-        functionResponse = "Oops! Function call returned error ";
+        functionResponse = "Oops! Function call returned error ", error;
+        return {
+          taskCompleted: response.task_completed,
+          nextPrompt: "Function response is " + functionResponse,
+        };
       }
     }else if(response.task_completed == false){
       return {
@@ -150,7 +154,9 @@ export class Agent {
     let finalResponse;
 
     while (true) {
+      //console.log("prompt is ", prompt);
       const response = await this.prompt(prompt);
+      //console.log("Response is ", response);
       const processResponse = await this.newProcess(response);
 
       if (processResponse?.taskCompleted) {

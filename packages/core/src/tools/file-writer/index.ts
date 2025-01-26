@@ -4,7 +4,7 @@ import { ToolFunctionSpec } from '../base/types';
 
 class FileWriterTool extends Tool{
 
-    public identifier = "file_writer_tool"
+    public identifier = "file_reader_tool"
     public name = "File writer tool"
     public abilities = ["Can create a file on the system and write text to it"]
     public instructions: string[] = ["Use the writeFile function to create a new file and write content to it"]
@@ -13,7 +13,7 @@ class FileWriterTool extends Tool{
         purpose: 'create a new file and write text to it',
         arguments: [{
             name: 'fileName',
-            description: 'name of the file to be created',
+            description: 'the full relative path including the filename of the file to be created',
             dataType: "string"
         },{
             name: 'content',
