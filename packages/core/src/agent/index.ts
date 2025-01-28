@@ -1,10 +1,22 @@
 import { Tool } from "../tools";
 import { Model } from "../model";
-import { AnyModelConfig, ModelConfig, ModelMessage } from "../model/types";
+import {
+  AnyModelConfig,
+  ModelConfig,
+  ModelExtendedContent,
+  ModelMessage,
+} from "../model/types";
 import { getMasterPrompt } from "./lib/master-prompt";
 import { AgentMessage, AgentResponse } from "./types";
 import ora from "ora";
 import { StructuredResponse } from "./structured-response";
+import { writeFile, appendFile } from "fs/promises";
+import readline from "readline";
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
 export class Agent {
   public name: string = "default_agent";
@@ -42,7 +54,7 @@ export class Agent {
       this.tools = config.tools;
     }
 
-    if(config.showToolUsage){
+    if (config.showToolUsage) {
       this.showToolUsage = config.showToolUsage;
     }
 
@@ -76,19 +88,47 @@ export class Agent {
     return prompt;
   }
 
-  private addMessage(content: string) {
+  private addMessage(content: string, imageBase64?: string) {
+    const contentArray: ModelExtendedContent[] = [
+      {
+        type: "text",
+        text: content,
+      },
+    ];
+
+    if (imageBase64) {
+      contentArray.push({
+        type: "image_url",
+        image_url: {
+          url: imageBase64,
+        },
+      });
+    }
+
     this.messages.push({
       role: "user",
-      content,
+      content: contentArray,
     });
   }
 
-  private async prompt(prompt: string) {
-    this.addMessage(prompt);
+  private async prompt(prompt: string, imageBase64?: string) {
+    if (this._debugMode) {
+      await appendFile("agentOut.txt", " awaiting llm response\n");
+    }
+
+    if (imageBase64) {
+      this.addMessage(prompt, imageBase64);
+    } else {
+      this.addMessage(prompt);
+    }
 
     //console.log("messages array is", this.messages);
 
     const response = await this.model.sendAndReceiveResponse(this.messages);
+
+    if (this._debugMode) {
+      await appendFile("agentOut.txt", " llm responded\n");
+    }
 
     this.addMessage(JSON.stringify(response));
 
@@ -98,14 +138,19 @@ export class Agent {
   }
 
   private async newProcess(response: AgentResponse) {
-
-    if (response.use_tool) {
-      
-      this.showToolUsage && console.log(
-        "\n 🛠️ Using tool " + response.use_tool.identifier + " with function ",
-        response.use_tool.function_name + " and args ",
-        response.use_tool.args + "\n"
-      );
+    if (
+      response.use_tool &&
+      (response.use_tool != undefined ||
+        typeof response.use_tool != "undefined")
+    ) {
+      this.showToolUsage &&
+        console.log(
+          "\n 🛠️ Using tool " +
+            response.use_tool.identifier +
+            " with function ",
+          response.use_tool.function_name + " and args ",
+          response.use_tool.args + "\n"
+        );
 
       const tool = this.getTool(response.use_tool.identifier);
 
@@ -123,48 +168,72 @@ export class Agent {
       let functionResponse;
       try {
         functionResponse = await tool.functionMap[fn](...args);
+
+        if (functionResponse.isImage) {
+          return {
+            taskCompleted: response.task_completed,
+            nextPrompt: "Here is the image",
+            image: functionResponse.image,
+          };
+        }
+
         return {
           taskCompleted: response.task_completed,
-          nextPrompt: "Function response is " + functionResponse,
+          nextPrompt: "<tool_response>" + functionResponse + "</tool_response>",
         };
       } catch (error) {
-        functionResponse = "Oops! Function call returned error ", error;
+        functionResponse = "Oops! Function call returned error " + error;
         return {
           taskCompleted: response.task_completed,
-          nextPrompt: "Function response is " + functionResponse,
+          nextPrompt: "<tool_response>" + functionResponse + "</tool_response>",
         };
       }
-    }else if(response.task_completed == false){
+    } else if (response.task_completed == false) {
       return {
         taskCompleted: false,
-        nextPrompt: "Continue"
-      }
+        nextPrompt: "Continue",
+      };
     }
 
     return {
       taskCompleted: true,
-      nextPrompt: ''
-    }
-
+      nextPrompt: "",
+    };
   }
 
-  private async autoPrompt(initialPrompt: string) {
-
+  private async autoPrompt(initialPrompt: string, initialImageBase64?: string) {
     let prompt = initialPrompt;
+    let imageBase64 = initialImageBase64;
     let finalResponse;
 
     while (true) {
       //console.log("prompt is ", prompt);
-      const response = await this.prompt(prompt);
+
+      if (this._debugMode) {
+        await appendFile("agentOut.txt", "Prompt: " + prompt + "\n");
+      }
+      const response = await this.prompt(prompt, imageBase64);
       //console.log("Response is ", response);
+      if (this._debugMode) {
+        await appendFile(
+          "agentOut.txt",
+          "Response: " + JSON.stringify(response) + "\n"
+        );
+      }
       const processResponse = await this.newProcess(response);
 
       if (processResponse?.taskCompleted) {
-        finalResponse = response.response
+        finalResponse = response.response;
         break;
       }
-      
-      prompt = processResponse?.nextPrompt
+
+      prompt = processResponse?.nextPrompt;
+
+      if (processResponse.image) {
+        imageBase64 = processResponse.image;
+      } else {
+        imageBase64 = undefined;
+      }
     }
 
     return finalResponse;
@@ -174,19 +243,22 @@ export class Agent {
     return this.tools?.find((tool) => tool.identifier === identifier) || false;
   }
 
-  public async run(prompt: string) {
-    const finalResponse =  await this.autoPrompt(prompt);
+  public async run(prompt: string, imageBase64?:string) {
+    if (this._debugMode) {
+      await writeFile("agentOut.txt", "");
+    }
+    const finalResponse = await this.autoPrompt(prompt, imageBase64);
     return finalResponse;
   }
 
-  public async printResponse(prompt: string, config?: {}) {
+  public async printResponse(prompt: string, imageBase64?:string, config?: {}) {
     const spinner = ora().start();
-    console.log((await this.run(prompt))?.message);
+    console.log((await this.run(prompt, imageBase64))?.message);
     spinner.stop();
 
     if (this._debugMode) {
-      console.log("--MESSAGE STACK--");
-      console.log(this.messages);
+      console.log("Agent raw message stack written to agentRawMessageStack.txt");
+      await writeFile("agentRawMessageStack.txt", JSON.stringify(this.messages.slice(1)));
     }
   }
 }

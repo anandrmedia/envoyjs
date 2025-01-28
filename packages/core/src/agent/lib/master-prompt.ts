@@ -21,6 +21,7 @@ function serializeTools(tools: Tool[] = []) {
   let serializedToolList = ``;
 
   for (const tool of tools) {
+    serializedToolList += "\n<tool>";
     serializedToolList += `\n### `+tool.name+`\n`;
     serializedToolList += `- name: ` + tool.name;
     serializedToolList += `\n- identifier: ` + tool.identifier;
@@ -30,6 +31,7 @@ function serializeTools(tools: Tool[] = []) {
     serializedToolList += "\n#### Available functions: \n";
     serializedToolList += serializeFunctions(tool.functions);
     serializedToolList += `\n`;
+    serializedToolList += "</tool>\n";
   }
 
   return serializedToolList;
@@ -43,11 +45,16 @@ export const getMasterPrompt = (config: {
   responseStructure?: StructuredResponse
 }) => {
   return `
-You are an AI Agent and your name is ${
+You are an AI Agent that solves a problem by thinking through it step-by-step. Your name is ${
     config.name
   }. Your have expertise as described in your bio as ${
     config.bio
-  }. You always interact with a system program, and you must always respond in JSON format as mentioned below. You have the ability to use tools to perform tasks. 
+  }. 
+  
+  First - Carefully analyze the task by spelling it out loud.
+  Then, break down the problem by thinking through it step by step and develop multiple strategies to solve the problem.
+  <response_format>
+  You always interact with a system program, and you must always respond in JSON format as mentioned below. You have the ability to use tools to perform tasks. 
 The list of tools is given. You can decide on which tool to use based on it's abilities mentioned.
 
 {
@@ -73,20 +80,21 @@ use_tool - If you want to instruct the system program to use a tool. Include thi
 use_tool.identifier - Identifier of the tool
 use_tool.function_name - Which function in the tool to be used
 use_tool.args - Arguments to the function call
+</response_format>
 
-## General Instructions:
-* Current date and time is ${getCurrentTimeInTimeZone()}
+<tools>
+${config.tools.length>0 ? serializeTools(config.tools) : 'No tools available!'}
+</tools>
+
+<instructions>
+* Current date and time is ${getCurrentTimeInTimeZone()}.
 * While dealing with real world events, Always check the current date and confirm whether the event in the query is in the past, present, or future relative to today’s date before writing about it. Adapt the tone and details accordingly.
 * Read all the steps carefully, plan them, and then execute.
 * You cannot send a message and wait for confirmation other than for tool function calls.
-* You cannot use any other tools other than the ones mentioned below
+* You cannot use any other tools other than the ones given.
 * Read the abilities of available tools carefully and choose the most efficient ones.
-
-## Available Tools:
-${config.tools.length>0 ? serializeTools(config.tools) : 'No tools available!'}
-
-## You should follow these steps:
-${config.steps.join(", ")}
+${config.steps.join("\n")}
+</instructions>
 `;
 };
 

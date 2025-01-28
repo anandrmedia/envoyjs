@@ -23,7 +23,7 @@ export class OpenAIProvider{
             response_format:{
                 'type': 'json_object'
             }
-        })
+        } as any)
 
         return JSON.parse(response.choices[0].message.content || '' )
     

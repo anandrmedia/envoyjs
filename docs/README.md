@@ -29,7 +29,7 @@ Agents are the core component of EnvoyJS. They define the behavior, purpose, and
 - `steps`: Step-by-step instructions for the agent to follow as array of strings.
 - `modelConfig`: Configuration for the AI model, including provider, API key, and model type.
 - `tools`: List of tools the agent can use (e.g., custom tools like FileWriterTool).
-- `responseStructure`: The structure for the model to respond (Should be an object of `StructuredResponse` class) 
+- `responseStructure`: The structure for the model to respond (Should be an object of `StructuredResponse` class)
 
 ### Supported Models
 
@@ -81,12 +81,19 @@ Tools extend the functionality of agents by providing specific capabilities. A t
 
 ### Available Tools
 
-|     Tool       |     Purpose         | Additional Config |
-|----------------|---------------------|-------------------|
-| `youtubeTranscriptTool` | Transcribes a youtube video |
-| `googleSearchTool` | Performs Google Search using Serper API | Add your Server API key via `googleSearchTool.config({serperApiKey:""})` |
-| `crawlerTool` | Crawls web pages |
-| `webPageToMarkdownTool` | Crawls the given URL and convert it into Markdown with relevant pieces of content |
+| Tool Identifier | Name                    | Abilities                                       | Additional Config                                                                          |
+|-----------------|-------------------------|------------------------------------------------|---------------------------------------------------------------------------------------|
+| calculator_tool | Calculator Tool         | Evaluate mathematical expressions               |  |
+| page_screenshot_tool | Page Screenshot Tool | Can take a screenshot of a webpage by visiting its URL    |                                |
+| crawler-tool    | Crawler Tool            |  Can crawl a given url and get the raw html output | |
+| webpage-to-markdown | Web Page to Markdown Converter Tool | Can convert webpage content to markdown          |  |
+| server-starter-tool | Server Starter Tool  | Start a node server                              |  |
+| file-reader-tool | File Reader Tool       | You can read a given file from disk                      | |
+| bash-executor-tool | Bash Executor Tool   | Execute a bash command in terminal               |  |
+| file_writer_tool | File Writer Tool       | Can create a file on the system and write text to it               |  |
+| youtube_transcript_tool | YouTube Transcript Tool | Can fetch transcript of a YouTube video                   | |
+| google-search-tool | Google Search Tool | You can perform google search and get results | Add your Server API key via `googleSearchTool.config({serperApiKey:""})` |
+
 
 ### Creating a Custom Tool
 You can create custom tools by extending the Tool class. You should create an instance of your custom Tool class and export it. This exported instance can be provided to the Agent via the `tools` property.

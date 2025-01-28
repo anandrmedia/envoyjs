@@ -28,7 +28,14 @@ export type DeepSeekModelConfig = {
     apiKey: string
 }
 
+export type ModelExtendedContent = {
+  type: "text" | "image_url",
+  text?: string
+  image_url?: {
+    url: string
+  }
+}
 export type ModelMessage = {
     role: 'system' | 'user',
-    content: string
+    content: string | ModelExtendedContent[]
 }

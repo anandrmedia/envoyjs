@@ -26,12 +26,12 @@ export class DeepSeekProvider{
             response_format:{
                 'type': 'json_object'
             }
-        })
+        } as any)
 
         return JSON.parse(response.choices[0].message.content || '' )
 
     }catch(error: any){
-        throw new Error("Fatal error: deepseek model returned error " + JSON.stringify(error.error))
+        throw new Error(error)
     }
     
     }
