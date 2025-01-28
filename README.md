@@ -1,6 +1,6 @@
 # EnvoyJS: Minimal Agentic Framework in Javascript
 
-![](./resources/images/envoyjs.gif)
+![](https://github.com/anandrmedia/envoyjs/blob/main/docs/resources/images/envoyjs.gif?raw=true)
 
 ```
 ⚠️ Warning
