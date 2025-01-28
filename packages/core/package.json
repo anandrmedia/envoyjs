@@ -1,6 +1,6 @@
 {
   "name": "@envoyjs/core",
-  "version": "0.0.15",
+  "version": "0.0.17",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -8,7 +8,7 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "dev": "concurrently \"npm run watch\" \"nodemon --watch dist\"",
-    "publish": "cp ../README.md ./README.md && npm publish"
+    "release": "cp ../../README.md ./README.md && npm publish"
   },
   "keywords": [],
   "author": "",
