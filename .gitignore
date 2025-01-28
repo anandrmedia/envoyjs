@@ -3,3 +3,6 @@ env
 node_modules
 dist
 .DS_Store
+agentOut.txt
+agentRawMessageStack.txt
+serverOut.txt
