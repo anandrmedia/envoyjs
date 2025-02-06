@@ -1,5 +1,8 @@
-![](https://github.com/anandrmedia/envoyjs/raw/main/docs/resources/images/logo.png)
-# EnvoyJS - The Simplest Agentic Framework for JavaScript
+<p align="center">
+ <img src="https://github.com/anandrmedia/envoyjs/raw/main/docs/resources/images/logo.png" width="350" />
+</p>
+
+## EnvoyJS - Easiest way to build agents in Typescript
 
 [![](https://img.shields.io/npm/v/@envoyjs/core)](https://www.npmjs.com/package/@envoyjs/core)
 
