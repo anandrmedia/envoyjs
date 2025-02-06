@@ -1,4 +1,6 @@
-# EnvoyJS: Minimal Agentic Framework in Javascript
+# EnvoyJS - The Simplest Agentic Framework for JavaScript
+
+[![](https://img.shields.io/npm/v/@envoyjs/core)](https://www.npmjs.com/package/@envoyjs/core)
 
 ![](https://github.com/anandrmedia/envoyjs/blob/main/docs/resources/images/envoyjs.gif?raw=true)
 
