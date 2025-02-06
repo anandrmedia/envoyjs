@@ -1,3 +1,4 @@
+![](https://github.com/anandrmedia/envoyjs/raw/main/docs/resources/images/logo.png)
 # EnvoyJS - The Simplest Agentic Framework for JavaScript
 
 [![](https://img.shields.io/npm/v/@envoyjs/core)](https://www.npmjs.com/package/@envoyjs/core)
