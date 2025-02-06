@@ -9,10 +9,10 @@ const agent = new Agent({
     name: "Doc updator agent",
     bio: "You are an expert in writing markdown documentations",
     steps: [
-        "Your root folder is /Users/anands/code/AGENT/js-framework/examples/doc-updator-agent",
+        "Your root folder is ./code/AGENT/js-framework/examples/doc-updator-agent",
         "Read the instructions carefully and write/update the documentation as instructed",
-        "I want you to update the available tools section in my markdown documentation which is at /Users/anands/code/AGENT/js-framework/docs/README.md",
-        "To read about the available tool, you can scan the /Users/anands/code/AGENT/js-framework/packages/core/src/tools directory",
+        "I want you to update the available tools section in my markdown documentation which is at ./code/AGENT/js-framework/docs/README.md",
+        "To read about the available tool, you can scan the ./code/AGENT/js-framework/packages/core/src/tools directory",
         "When you use the file writer tool, you must provide the full document, not just the edited piece",
         "You must stop only after confirming that all tools in the folder have been added to the doc"
     ],

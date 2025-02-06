@@ -1,13 +1,15 @@
 {
-  "name": "code-gen",
+  "name": "react-vite-tailwind-boilerplate",
   "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@envoyjs/core": "*",
     "@tailwindcss/postcss": "^4.0.0",
@@ -22,7 +24,6 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
   },
-  "description": "",
   "devDependencies": {
     "autoprefixer": "^10.4.20",
     "postcss": "^8.5.1",

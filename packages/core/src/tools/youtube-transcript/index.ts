@@ -1,6 +1,7 @@
-import { Tool } from '../../base/base-tool';
-import { ToolFunctionSpec } from '../../base/types';
+
 import { YoutubeTranscript } from 'youtube-transcript';
+import { Tool } from '../base/base-tool';
+import { ToolFunctionSpec } from '../base/types';
 
 class YoutubeTranscriptTool extends Tool{
 

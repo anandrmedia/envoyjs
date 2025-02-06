@@ -1,6 +1,7 @@
 import { DeepSeekProvider } from "./providers/deepseek";
 import { OpenAIProvider } from "./providers/open_ai";
-import { AnyModelConfig, DeepSeekModelConfig, ModelConfig, ModelMessage } from "./types";
+import { OpenRouterProvider } from "./providers/openrouter";
+import { AnyModelConfig, DeepSeekModelConfig, ModelConfig, ModelMessage, OpenRouterModelConfig } from "./types";
 import ora from 'ora';
 
 export * from './types';
@@ -11,6 +12,7 @@ export class Model{
 
     private openAiProvider!: OpenAIProvider
     private deepSeekProvider!: DeepSeekProvider
+    private openRouterProvider!: OpenRouterProvider
 
 
     constructor(config:{
@@ -43,6 +45,17 @@ export class Model{
                 
                 break;
             }
+
+            case 'OPEN_ROUTER':{
+
+                //console.log("initialising deepseek")
+                if(!this.modelConfig.apiKey){
+                    throw new Error('OPEN ROUTER API Key is missing!');
+                }
+                this.openRouterProvider = new OpenRouterProvider(this.modelConfig as OpenRouterModelConfig) 
+                
+                break;
+            }
         }
     }
 
@@ -58,6 +71,10 @@ export class Model{
             case 'DEEP_SEEK':{
                 response = await this.deepSeekProvider.sendAndReceiveResponse(messages)
                 break;
+            }
+
+            case 'OPEN_ROUTER':{
+                response = await this.openRouterProvider.sendAndReceiveResponse(messages)
             }
         }
         

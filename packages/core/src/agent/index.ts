@@ -179,7 +179,7 @@ export class Agent {
 
         return {
           taskCompleted: response.task_completed,
-          nextPrompt: "<tool_response>" + functionResponse + "</tool_response>",
+          nextPrompt: "<tool_response>" + functionResponse + "</tool_response>. Give me the next one step in JSON format.",
         };
       } catch (error) {
         functionResponse = "Oops! Function call returned error " + error;
