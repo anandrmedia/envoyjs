@@ -1,6 +1,6 @@
 {
   "name": "@envoyjs/core",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -10,8 +10,8 @@
     "dev": "concurrently \"npm run watch\" \"nodemon --watch dist\"",
     "release": "cp ../../README.md ./README.md && npm publish"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["Agentic framework", "javascript", "ai framework js", "typescript agent"],
+  "author": "Anand Sukumaran",
   "license": "MIT",
   "description": "EnvoyJS is a simple JavaScript framework for building AI Agents.",
   "devDependencies": {

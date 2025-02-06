@@ -1,3 +1,4 @@
+![](./resources/images/logo.png)
 # EnvoyJS: Minimal Agentic Framework in Javascript
 
 ![](./resources/images/envoyjs.gif)
