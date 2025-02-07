@@ -26,7 +26,7 @@ export class OpenRouterProvider{
                 }
             } as any)
 
-            console.log("Raw output is", response.choices[0].message.content);
+            //console.log("Raw output is", response.choices[0].message.content);
     
             return JSON.parse(response.choices[0].message.content || '' )
         

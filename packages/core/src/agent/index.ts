@@ -27,6 +27,7 @@ export class Agent {
   public _debugMode?: boolean = false;
   public responseStructure?: StructuredResponse;
   public showToolUsage: boolean = false;
+  public metaData: Record<string, any> = {}
 
   private responseMessages: Array<AgentMessage> = [];
 
@@ -42,6 +43,7 @@ export class Agent {
     _debugMode?: boolean;
     responseStructure?: StructuredResponse;
     showToolUsage?: boolean;
+    metaData?: Record<string, any>
   }) {
     this.name = config.name;
     this.bio = config.bio;
@@ -50,12 +52,20 @@ export class Agent {
     this._debugMode = config._debugMode;
     this.responseStructure = config.responseStructure;
 
-    if (config.tools) {
-      this.tools = config.tools;
-    }
-
     if (config.showToolUsage) {
       this.showToolUsage = config.showToolUsage;
+    }
+
+    if(config.metaData){
+      this.metaData = config.metaData
+    }
+
+    if (config.tools) {
+      this.tools = config.tools;
+
+      for(const tool of this.tools){
+        tool.setExecutingAgent(this);
+      }
     }
 
     // Initialise the model
@@ -167,6 +177,7 @@ export class Agent {
 
       let functionResponse;
       try {
+        
         functionResponse = await tool.functionMap[fn](...args);
 
         if (functionResponse.isImage) {
@@ -191,7 +202,7 @@ export class Agent {
     } else if (response.task_completed == false) {
       return {
         taskCompleted: false,
-        nextPrompt: "Continue",
+        nextPrompt: "Continue with whatever data available. If impossible to continue, mark task_completed to true with a failure message. ",
       };
     }
 
@@ -240,7 +251,8 @@ export class Agent {
   }
 
   private getTool(identifier: string) {
-    return this.tools?.find((tool) => tool.identifier === identifier) || false;
+    const tool = this.tools?.find((tool) => tool.identifier === identifier) || false;
+    return tool;
   }
 
   public async run(prompt: string, imageBase64?:string) {
