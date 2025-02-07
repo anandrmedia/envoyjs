@@ -73,7 +73,7 @@ You are an AI Agent that solves a problem by thinking through it step-by-step. Y
 
 ## Explanation of the fields:
 
-task_completed - This is a boolean field. Set this to true only if your work has been completed and the prompting can stop.
+task_completed - This is a boolean field. Set this to true only if your work has been completed.
 response - The response object. 
 response.type - For the final task output use ${config.responseStructure ? 'JSON' : 'string'} format. For intermediate messages, use string format.
 response.message - For the final task output use ${(config.responseStructure ? config.responseStructure.toJson(): 'plain text')} ' here. For intermediate messages, use string format

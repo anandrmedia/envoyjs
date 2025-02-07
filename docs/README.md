@@ -31,6 +31,7 @@ Agents are the core component of EnvoyJS. They define the behavior, purpose, and
 - `modelConfig`: Configuration for the AI model, including provider, API key, and model type.
 - `tools`: List of tools the agent can use (e.g., custom tools like FileWriterTool).
 - `responseStructure`: The structure for the model to respond (Should be an object of `StructuredResponse` class)
+- `metaData`: Key value pair meta data associated with the Agent that you can access within tool functions.
 
 ### Supported Models
 
@@ -107,6 +108,8 @@ public functionMap = {
     };
 ```
 
+Tools can access the agent who is executing the tool through the `executingAgent` property of the tool.
+
 #### Example: FileWriterTool
 The following is a custom tool for writing files and creating directories. Notice that the tool has two functions `writeFile` and `createDirectory`.
 
@@ -145,6 +148,10 @@ class FileWriterTool extends Tool {
     };
 
     public async writeFile(fileName: string, content: string) {
+
+        //If you need information about the agent who is currently executing this tool
+        const executingAgent = this.executingAgent;
+
         try {
             await fs.writeFile(fileName, content);
             return "success";
