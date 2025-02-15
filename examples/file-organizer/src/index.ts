@@ -28,4 +28,8 @@ const agent = new Agent({
     tools: [fileReaderTool, fileWriterTool, bashExecutorTool, pageScreenshotTool]
 })
 
+/**
+ * YOU MUST EDIT THIS PROMPT WITH THE EXACT FOLDER STRUCTURE, AND PROMPT.
+ * WARNING: RUN THIS AT YOUR OWN RISK. YOU ARE GIVING THE AGENT ACCESS TO READ AND MODIFY THE FILES. IF IT HALLUCINATES, IT CAN EVEN DELETE THE FILES
+ */
 agent.printResponse("Can you read the screenshots and categorise them properly? Your root folder is /Users/anands/Desktop/screenshots")
