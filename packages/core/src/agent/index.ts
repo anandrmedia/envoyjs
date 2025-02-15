@@ -32,7 +32,7 @@ export class Agent {
   private responseMessages: Array<AgentMessage> = [];
 
   private model!: Model;
-  private messages: ModelMessage[] = [];
+  public messages: ModelMessage[] = [];
 
   constructor(config: {
     name: string;
