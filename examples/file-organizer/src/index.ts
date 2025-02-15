@@ -11,7 +11,7 @@ const agent = new Agent({
     steps: [
         "The folder path will be given to you. And you must not go back from the given path. But you can look into the subfolders.",
         "Find all the files by executing the ls command inside the folder and make an idea about what they are",
-        "If you find image files, you must use the screenshotter tool with file://URL. For ex:file:///Users/anands/Desktop/screenshots/Screenshot%202025-02-07%20at%204.13.14%20PM.png",
+        "If you find image files, you must use the screenshotter tool with file://URL. For ex:file:///Users/user/Desktop/screenshots/Screenshot%202025-02-07%20at%204.13.14%20PM.png",
         "Learn the content of the image, and categorise them into folders based on their content",
         "Now create meaningful subfolders (in small case letters), and categorise the files according to your wisdon",
         "Scan for hidden files and folders as well but don't move them. Instead give the list of such folders after you finish all your task.",
@@ -32,4 +32,4 @@ const agent = new Agent({
  * YOU MUST EDIT THIS PROMPT WITH THE EXACT FOLDER STRUCTURE, AND PROMPT.
  * WARNING: RUN THIS AT YOUR OWN RISK. YOU ARE GIVING THE AGENT ACCESS TO READ AND MODIFY THE FILES. IF IT HALLUCINATES, IT CAN EVEN DELETE THE FILES
  */
-agent.printResponse("Can you read the screenshots and categorise them properly? Your root folder is /Users/anands/Desktop/screenshots")
+agent.printResponse("Can you read the screenshots and categorise them properly? Your root folder is /Users/user/Desktop/screenshots")
